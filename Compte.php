@@ -4,49 +4,49 @@ require 'Titulaire.php';
 
 class Compte
 {
-    private $_libellé;
+    private string $_libelle;
 
-    private $_soldeInitial;
+    private int $_soldeInitial;
 
-    private $_devise;
+    private string $_devise;
 
-    private $_titulaire;
+    private Titulaire $_titulaire;
 
-    public function __construct($libellé, $soldeInitial, $devise, $titulaire)
+    public function __construct(string $libelle, int $soldeInitial, string $devise, Titulaire $titulaire)
     {
-        $this->_libellé = $libellé;
+        $this->_libelle = $libelle;
         $this->_soldeInitial = $soldeInitial;
         $this->_devise = $devise;
         $this->_titulaire = $titulaire;
         $titulaire->ajouterCompte($this); //pas besoin de rajouter un compte manuellement on met juste $titulaire en dernier parametre
     }
 
-    public function getLibellé()
+    public function getlibelle() : string
     {
-        return $this->_libellé;
+        return $this->_libelle;
     }
 
-    public function getSoldeInitial()
+    public function getSoldeInitial() : int
     {
         return $this->_soldeInitial;
     }
 
-    public function getDevise()
+    public function getDevise() : string
     {
         return $this->_devise;
     }
 
-    public function getTitulaire()
+    public function getTitulaire() : Titulaire
     {
         return $this->_titulaire;
     }
 
-    public function créditer($montant)
+    public function créditer(int $montant)
     {
         $this->_soldeInitial += $montant;
     }
 
-    public function débiter($montant)
+    public function débiter(int $montant)
     {
         if ($montant > $this->_soldeInitial) {
             throw new Exception("PAs assez d'argent.");
@@ -55,7 +55,7 @@ class Compte
         }
     }
 
-    public function transférer($compte, $montant)
+    public function transférer(Compte $compte, int $montant)
     { //on transfère de $this vers un autre compte
         if ($this->_devise != $compte->getDevise()) {
             throw new Exception("Devises différentes.");
@@ -70,11 +70,11 @@ class Compte
 
     public function afficherInfos()
     {
-        echo "<br>Infos compte $this->_libellé: <br>Solde: $this->_soldeInitial $this->_devise<br>Titulaire: $this->_titulaire<br>";
+        echo "<br>Infos compte $this->_libelle: <br>Solde: $this->_soldeInitial $this->_devise<br>Titulaire: $this->_titulaire<br>";
     }
 
-    public function __toString()
+    public function __toString() : string
     {
-        return "<br>Libellé: $this->_libellé<br>Solde: $this->_soldeInitial $this->_devise<br>"; // Titulaire: $this->_titulaire<br>
+        return "<br>Libellé: $this->_libelle<br>Solde: $this->_soldeInitial $this->_devise<br>"; // Titulaire: $this->_titulaire<br>
     }
 }
